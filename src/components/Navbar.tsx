@@ -14,8 +14,7 @@ const Navbar: React.FC = () => {
 		logout();
     navigate("/")
 	};
-	const isAuthenticated = false; // Placeholder
-	const userRole = "artisan" as const; // Placeholder
+	
 
 	return (
 		<nav className="bg-background text-foreground shadow-sm py-4 px-6 flex justify-between items-center font-geist">
@@ -42,9 +41,9 @@ const Navbar: React.FC = () => {
 					Artisans
 				</Link>
 				{/* Liens conditionnels basés sur l'authentification et le rôle */}
-				{isAuthenticated ? (
+				{user ? (
 					<>
-						{userRole === "artisan" && (
+						{user.role === "artisan" && (
 							<Link
 								to="/dashboard"
 								className="text-foreground hover:text-primary transition-colors duration-200"

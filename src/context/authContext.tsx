@@ -1,6 +1,6 @@
 import api from '@/lib/api'; // Notre instance Axios configurée
 import { AxiosError } from 'axios';
-import React, { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import React, { createContext, useContext, useState, type ReactNode } from 'react';
 
 // Définition des types pour l'utilisateur
 export interface User {
@@ -46,24 +46,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Fournisseur du contexte d'authentification
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-
-  // Charge l'utilisateur depuis le localStorage au démarrage de l'application
-  useEffect(() => {
+  // Correction : initialisation de user depuis le localStorage dès le départ
+  const [user, setUser] = useState<User | null>(() => {
     try {
       const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        const parsedUser: User = JSON.parse(storedUser);
-        // Optionnel: Vérifier l'expiration du token ici
-        setUser(parsedUser);
-      }
-    } catch (err) {
-      console.error("Failed to parse user from localStorage", err);
-      localStorage.removeItem('user'); // Nettoie le stockage si corrompu
+      return storedUser ? JSON.parse(storedUser) : null;
+    } catch {
+      localStorage.removeItem('user');
+      return null;
     }
-  }, []);
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Fonction de connexion
   const login = async (userData: LoginData) => {
