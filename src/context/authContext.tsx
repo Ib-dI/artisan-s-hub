@@ -64,14 +64,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setIsLoading(true);
     setError(null);
     try {
-      // Normalement, ici tu ferais un appel à l'API de login
-      // Pour l'instant, on va simplement définir l'utilisateur directement après une "fausse" attente
       const response = await api.post('/auth/login', userData);
       const loggedInUser: User = response.data;
+      console.log('Réponse du serveur:', response.data);
+      console.log('Token reçu:', loggedInUser.token);
 
       localStorage.setItem('user', JSON.stringify(loggedInUser));
+      const storedUser = localStorage.getItem('user');
+      console.log('Utilisateur stocké:', storedUser);
+      
       setUser(loggedInUser);
-      return loggedInUser; // Retourne l'utilisateur pour le `useMutation`
+      return loggedInUser;
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         setError(err.response?.data?.message || 'Erreur de connexion');

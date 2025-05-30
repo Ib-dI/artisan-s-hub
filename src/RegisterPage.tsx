@@ -56,10 +56,12 @@ const RegisterPage: React.FC = () => {
         email: values.email,
         password: values.password,
         role: values.role,
-        artisanDetails: values.role === 'artisan' ? {
-          companyName: values.companyName,
-          description: values.description,
-        } : undefined,
+        ...(values.role === 'artisan' && values.companyName ? {
+          artisanDetails: {
+            companyName: values.companyName,
+            description: values.description || undefined
+          }
+        } : {})
       };
 
       await authRegister(userDataToSend);

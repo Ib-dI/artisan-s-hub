@@ -1,21 +1,21 @@
 // frontend/src/ProfilePage.tsx
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
 // Définition des types pour l'utilisateur (peut être partagée depuis authContext.tsx si besoin)
-interface User {
-  _id: string;
-  username: string;
-  email: string;
-  role: 'customer' | 'artisan';
-  token: string;
-  artisanDetails?: {
-    companyName: string;
-    description?: string;
-  };
-}
+// interface User {
+//   _id: string;
+//   username: string;
+//   email: string;
+//   role: 'customer' | 'artisan';
+//   token: string;
+//   artisanDetails?: {
+//     companyName: string;
+//     description?: string;
+//   };
+// }
 
 const ProfilePage: React.FC = () => {
   const { user } = useAuth(); // Récupère l'utilisateur du contexte

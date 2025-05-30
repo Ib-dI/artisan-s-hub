@@ -1,9 +1,6 @@
 // frontend/src/DashboardPage.tsx
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/context/authContext';
-import api from '@/lib/api'; // Pour les appels API
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -12,11 +9,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'; // Composants Table
+import { useAuth } from '@/context/authContext';
+import api from '@/lib/api'; // Pour les appels API
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { PlusCircle, Edit, Trash2 } from 'lucide-react'; // Icônes
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'; // Composants Dialog
+import { Edit, PlusCircle, Trash2 } from 'lucide-react'; // Icônes
 
 // Importe les formulaires pour ajouter/modifier
+import { AxiosError } from 'axios';
 import AddProductForm from './components/AddProductForm';
 import EditProductForm from './components/EditProductForm';
 
@@ -36,6 +38,7 @@ interface Product {
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,30 +46,44 @@ const DashboardPage: React.FC = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
+  // Vérification du rôle de l'utilisateur
+  useEffect(() => {
+    if (user && user.role !== 'artisan') {
+      navigate('/');
+    }
+  }, [user, navigate]);
+
   // Fonction pour charger les produits de l'artisan
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     if (!user || user.role !== 'artisan') {
       setError("Accès non autorisé.");
       setLoading(false);
       return;
     }
+
     setLoading(true);
     setError(null);
     try {
-      const response = await api.get('/products/artisan'); // Endpoint pour les produits de l'artisan
+      const response = await api.get('/products/artisan');
       setProducts(response.data);
-    } catch (err: any) {
-      console.error("Erreur lors du chargement des produits:", err);
-      setError(err.response?.data?.message || "Échec du chargement des produits.");
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.error("Erreur lors du chargement des produits:", err);
+        if (err.response?.status === 403) {
+          setError("Vous n'avez pas les permissions nécessaires pour accéder à cette page.");
+          navigate('/');
+        } else {
+          setError(err.response?.data?.message || "Échec du chargement des produits.");
+        }
+      }
     } finally {
       setLoading(false);
     }
-  };
+  }, [user, navigate]);
 
-  // Charge les produits au montage du composant
   useEffect(() => {
     fetchProducts();
-  }, [user]); // Re-charge si l'utilisateur change (par ex, après connexion)
+  }, [fetchProducts]);
 
   // Fonctions de gestion des actions (ajouter, modifier, supprimer)
   const handleProductAdded = () => {
@@ -90,130 +107,111 @@ const DashboardPage: React.FC = () => {
       try {
         await api.delete(`/products/${productId}`); // Endpoint de suppression
         fetchProducts(); // Recharge la liste
-      } catch (err: any) {
-        console.error("Erreur lors de la suppression du produit:", err);
-        setError(err.response?.data?.message || "Échec de la suppression du produit.");
+      } catch (err: unknown) {
+        if (err instanceof AxiosError) {
+          console.error("Erreur lors de la suppression du produit:", err);
+          setError(err.response?.data?.message || "Échec de la suppression du produit.");
+        }
       }
     }
   };
 
-  if (!user || user.role !== 'artisan') {
+  if (loading) {
     return (
-      <div className="min-h-[calc(100vh-64px)] bg-background text-foreground flex justify-center items-center p-4">
-        <Card className="max-w-md w-full text-center">
-          <CardHeader>
-            <CardTitle className="text-2xl font-geist text-destructive">Accès Refusé</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CardDescription className="font-inter">
-              Vous devez être connecté en tant qu'artisan pour accéder à ce tableau de bord.
-            </CardDescription>
-          </CardContent>
-        </Card>
+      <div className="flex justify-center items-center min-h-[calc(100vh-64px)]">
+        <p>Chargement...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-[calc(100vh-64px)]">
+        <p className="text-red-500">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-background text-foreground p-8">
-      <Card className="w-full">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <div>
-            <CardTitle className="text-3xl font-geist text-primary">Mon Espace Artisan</CardTitle>
-            <CardDescription className="font-inter mt-2">
-              Gérez vos produits, commandes et informations de profil.
-            </CardDescription>
-          </div>
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="font-geist">
-                <PlusCircle className="mr-2 h-4 w-4" /> Ajouter un produit
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle className="font-geist">Ajouter un nouveau produit</DialogTitle>
-                <CardDescription className="font-inter">
-                  Remplissez les informations du nouveau produit.
-                </CardDescription>
-              </DialogHeader>
-              <AddProductForm onProductAdded={handleProductAdded} />
-            </DialogContent>
-          </Dialog>
+    <div className="container mx-auto p-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>Mes Produits</CardTitle>
+          <CardDescription>Gérez vos produits ici</CardDescription>
         </CardHeader>
         <CardContent>
-          {loading && (
-            <div className="flex justify-center items-center h-40">
-              <p className="font-inter">Chargement des produits...</p>
-            </div>
-          )}
-          {error && <p className="text-red-500 font-inter text-center mt-4">{error}</p>}
-          {!loading && !error && products.length === 0 && (
-            <p className="text-center text-muted-foreground font-inter mt-4">Vous n'avez pas encore de produits. Ajoutez-en un !</p>
-          )}
-          {!loading && !error && products.length > 0 && (
-            <div className="overflow-x-auto">
-              <Table className="min-w-[700px] mt-4">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="font-geist">Image</TableHead>
-                    <TableHead className="font-geist">Nom</TableHead>
-                    <TableHead className="font-geist">Catégorie</TableHead>
-                    <TableHead className="font-geist">Prix</TableHead>
-                    <TableHead className="font-geist">Stock</TableHead>
-                    <TableHead className="font-geist text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {products.map((product) => (
-                    <TableRow key={product._id}>
-                      <TableCell>
-                        <img src={product.imageUrl || 'https://via.placeholder.com/50'} alt={product.name} className="w-12 h-12 object-cover rounded-md" />
-                      </TableCell>
-                      <TableCell className="font-inter font-medium">{product.name}</TableCell>
-                      <TableCell className="font-inter">{product.category}</TableCell>
-                      <TableCell className="font-inter">{product.price.toFixed(2)} €</TableCell>
-                      <TableCell className="font-inter">{product.quantity}</TableCell>
-                      <TableCell className="text-right">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleEditProduct(product)}
-                          className="mr-2"
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleDeleteProduct(product._id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          )}
+          <div className="flex justify-end mb-4">
+            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+              <DialogTrigger asChild>
+                <Button>
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Ajouter un produit
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Ajouter un nouveau produit</DialogTitle>
+                </DialogHeader>
+                <AddProductForm onProductAdded={handleProductAdded} />
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Nom</TableHead>
+                <TableHead>Prix</TableHead>
+                <TableHead>Catégorie</TableHead>
+                <TableHead>Stock</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {products.map((product) => (
+                <TableRow key={product._id}>
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>{product.price}€</TableCell>
+                  <TableCell>{product.category}</TableCell>
+                  <TableCell>{product.quantity}</TableCell>
+                  <TableCell>
+                    <div className="flex space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleEditProduct(product)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDeleteProduct(product._id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
 
-      {/* Dialog pour Modifier un produit */}
-      {selectedProduct && (
-        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle className="font-geist">Modifier le produit</DialogTitle>
-              <CardDescription className="font-inter">
-                Mettez à jour les informations de {selectedProduct.name}.
-              </CardDescription>
-            </DialogHeader>
-            <EditProductForm product={selectedProduct} onProductUpdated={handleProductUpdated} />
-          </DialogContent>
-        </Dialog>
-      )}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Modifier le produit</DialogTitle>
+          </DialogHeader>
+          {selectedProduct && (
+            <EditProductForm
+              product={selectedProduct}
+              onProductUpdated={handleProductUpdated}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
