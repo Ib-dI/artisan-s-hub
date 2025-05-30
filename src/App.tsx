@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import ProfilePage from './ProfilePage';
+import DashboardPage from './DashboardPage';
 
 function HomePage() {
   return (
@@ -36,17 +37,6 @@ function ArtisansPage() {
     </div>
   );
 }
-
-
-
-function DashboardPage() {
-  return (
-    <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-      <h2 className="text-4xl font-geist">Mon Espace Artisan (à faire)</h2>
-    </div>
-  );
-}
-
 
 
 function App() {
