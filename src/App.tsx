@@ -1,10 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
+import LoginPage from './/pages/LoginPage';
 import Navbar from './components/Navbar'; // Importe la Navbar
 import ProtectedRoute from './components/ProtectedRoute';
-import LoginPage from './LoginPage';
-import RegisterPage from './RegisterPage';
-import ProfilePage from './ProfilePage';
-import DashboardPage from './DashboardPage';
+import DashboardPage from './pages/DashboardPage';
+import ProfilePage from './pages/ProfilePage';
+import RegisterPage from './pages/RegisterPage';
+import ProductsPage from './pages/ProdutcsPage';
+import CartPage from './pages/CartPage';
 
 function HomePage() {
   return (
@@ -18,14 +20,6 @@ function HomePage() {
         meubles d'exception, chaque création est le fruit d'une passion et d'un engagement pour l'excellence.
       </p>
       {/* Plus tard, ajoutera un carrousel de produits ou des sections de découverte */}
-    </div>
-  );
-}
-
-function ProductsPage() {
-  return (
-    <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-      <h2 className="text-4xl font-geist">Liste des produits (à venir)</h2>
     </div>
   );
 }
@@ -50,6 +44,7 @@ function App() {
           <Route path="/artisans" element={<ArtisansPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/cart" element={<CartPage />} />
           {/* Routes protégées - Nécessitent d'être connecté */}
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<ProfilePage />} />

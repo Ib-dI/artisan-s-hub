@@ -2,12 +2,12 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from '@/components/ui/table'; // Composants Table
 import { useAuth } from '@/context/authContext';
 import api from '@/lib/api'; // Pour les appels API
@@ -18,8 +18,8 @@ import { Edit, PlusCircle, Trash2 } from 'lucide-react'; // Icônes
 
 // Importe les formulaires pour ajouter/modifier
 import { AxiosError } from 'axios';
-import AddProductForm from './components/AddProductForm';
-import EditProductForm from './components/EditProductForm';
+import AddProductForm from '../components/AddProductForm';
+import EditProductForm from '../components/EditProductForm';
 
 // Interface pour un produit (doit correspondre à ton modèle backend)
 interface Product {
