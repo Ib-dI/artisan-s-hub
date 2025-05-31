@@ -2,11 +2,15 @@ import { Route, Routes } from 'react-router-dom';
 import LoginPage from './/pages/LoginPage';
 import Navbar from './components/Navbar'; // Importe la Navbar
 import ProtectedRoute from './components/ProtectedRoute';
+import CartPage from './pages/CartPage';
 import DashboardPage from './pages/DashboardPage';
+import ProductsPage from './pages/ProdutcsPage';
 import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
-import ProductsPage from './pages/ProdutcsPage';
-import CartPage from './pages/CartPage';
+import ShippingPage from './pages/ShippingPage';
+import PaymentPage from './pages/PayementPage';
+import PlaceOrderPage from './pages/PlaceOrderPage';
+import { Toaster } from './components/ui/sonner';
 
 function HomePage() {
   return (
@@ -64,9 +68,13 @@ function App() {
               <p className="text-xl font-inter">Page non trouvée</p>
             </div>
           } />
+          <Route path='/shipping' element={<ShippingPage/>} />
+          <Route path='/payment' element={<PaymentPage/>} />
+          <Route path='/placeorder' element={<PlaceOrderPage/>} />
 
         </Routes>
       </main>
+      <Toaster />
     </div>
   );
 }

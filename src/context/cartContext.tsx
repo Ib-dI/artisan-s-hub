@@ -1,7 +1,7 @@
 // frontend/src/context/cartContext.tsx
 import type { ReactNode } from 'react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-
+import { toast } from 'sonner'
 // Interface pour un article du panier
 interface CartItem {
   _id: string;
@@ -54,7 +54,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const newQuantity = existItem.quantity + itemToAdd.quantity;
         // Assurez-vous de ne pas dépasser la quantité en stock
         if (newQuantity > itemToAdd.countInStock) {
-          alert(`Impossible d'ajouter plus de ${itemToAdd.countInStock} de cet article au panier.`);
+          toast.error(`Impossible d'ajouter plus de ${itemToAdd.countInStock} de cet article au panier.`);
           return prevItems; // Ne pas modifier si la quantité dépasse le stock
         }
         return prevItems.map((item) =>
@@ -63,7 +63,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       } else {
         // Si l'article n'existe pas, l'ajoute
         if (itemToAdd.quantity > itemToAdd.countInStock) {
-            alert(`Impossible d'ajouter plus de ${itemToAdd.countInStock} de cet article au panier.`);
+            toast.error(`Impossible d'ajouter plus de ${itemToAdd.countInStock} de cet article au panier.`);
             return prevItems;
         }
         return [...prevItems, itemToAdd];
@@ -81,7 +81,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         if (item._id === id) {
           const newQuantity = Math.max(1, quantity); // Ne pas descendre en dessous de 1
           if (newQuantity > item.countInStock) {
-            alert(`Impossible de définir la quantité à plus de ${item.countInStock}.`);
+            toast.error(`Impossible de définir la quantité à plus de ${item.countInStock}.`);
             return { ...item, quantity: item.countInStock }; // Limite à la quantité en stock
           }
           return { ...item, quantity: newQuantity };

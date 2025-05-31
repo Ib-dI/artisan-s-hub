@@ -6,6 +6,7 @@ import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useCart } from '@/context/cartContext'; 
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner'
 
 interface Product {
   _id: string;
@@ -51,6 +52,12 @@ const ProductsPage: React.FC = () => {
 
   // Fontion pour gérer l'ajout au panier
   const handleAddToCart = (product: Product) => {
+
+    if (product.quantity <= 0) {
+      toast.error(`${product.name} est en rupture de stock.`)
+      return
+    }
+    
     addToCart({
       _id: product._id,
       name: product.name,
@@ -59,7 +66,7 @@ const ProductsPage: React.FC = () => {
       quantity: 1,
       countInStock: product.quantity,
     })
-    alert(`${product.name} a été ajouté au panier !`)
+    toast.success(`${product.name} a été ajouté au panier !`)
   }
 
   return (
