@@ -104,9 +104,9 @@ const ArtisansPage: React.FC = () => {
               <CardContent className="p-4 pt-0 w-full">
                 <p className="text-base text-muted-foreground mb-4">{artisan.email}</p>
                 {/* Optionnel: Ajoutez un lien pour voir les produits de cet artisan */}
-                {/* <Button asChild className="w-full">
+                <Button asChild className="w-full">
                     <Link to={`/products?artisanId=${artisan._id}`}>Voir ses produits</Link>
-                </Button> */}
+                </Button>
               </CardContent>
             </Card>
           ))}

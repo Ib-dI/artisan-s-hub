@@ -16,6 +16,7 @@ import api from '@/lib/api'; // Votre instance Axios
 import { AxiosError } from 'axios';
 import { Search } from 'lucide-react'; // Icône de recherche
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
 // Mettre à jour l'interface Product pour correspondre au backend et à l'usage ici
@@ -41,9 +42,26 @@ const [loading, setLoading] = useState<boolean>(true);
 const [error, setError] = useState<string | null>(null);
 const [keyword, setKeyword] = useState<string>('');
 const [category, setCategory] = useState<string>('all');
+const [searchParams, setSearchParams] = useSearchParams();
+const artisanId = searchParams.get('artisanId');
+const [artisanName, setArtisanName] = useState<string>('');
 
 // Liste des catégories disponibles
 const categories = ['Bijoux', 'Vêtements', 'Décoration', 'Mobilier', 'Alimentation', 'Beauté', 'Autres'];
+
+useEffect(() => {
+  const fetchArtisanName = async () => {
+    if (artisanId) {
+      try {
+        const { data } = await api.get(`/auth/users/${artisanId}`);
+        setArtisanName(data.companyName || data.username);
+      } catch (err) {
+        console.error("Erreur lors du chargement du nom de l'artisan:", err);
+      }
+    }
+  };
+  fetchArtisanName();
+}, [artisanId]);
 
 useEffect(() => {
   const fetchProducts = async () => {
@@ -56,6 +74,9 @@ useEffect(() => {
       }
       if (category && category !== 'all') {
         queryParams.append('category', category);
+      }
+      if (artisanId) {
+        queryParams.append('artisanId', artisanId);
       }
 
       const response = await api.get<Product[]>(`/products?${queryParams.toString()}`);
@@ -73,7 +94,7 @@ useEffect(() => {
   };
 
   fetchProducts();
-}, [keyword, category]); // Re-déclenche la recherche si le mot-clé ou la catégorie change
+}, [keyword, category, artisanId]); // Ajout de artisanId comme dépendance
 
 const handleAddToCart = (product: Product) => {
   if (product.quantity <= 0) {
@@ -102,7 +123,9 @@ const handleSearch = (e: React.FormEvent) => {
 
 return (
   <div className="container mx-auto p-4">
-    <h1 className="text-3xl font-bold mb-6 text-center">Nos Produits Artisanaux</h1>
+    <h1 className="text-3xl font-bold mb-6 text-center">
+      {artisanId ? `Produits de ${artisanName}` : 'Nos Produits Artisanaux'}
+    </h1>
 
     {/* Barre de recherche et filtres */}
     <div className="flex flex-col md:flex-row gap-4 mb-8">
@@ -131,7 +154,17 @@ return (
         </SelectContent>
       </Select>
 
-      <Button onClick={() => { setKeyword(''); setCategory('all'); }}>Réinitialiser les filtres</Button>
+      <Button 
+        onClick={() => { 
+          setKeyword(''); 
+          setCategory('all');
+          if (artisanId) {
+            setSearchParams({});
+          }
+        }}
+      >
+        Réinitialiser les filtres
+      </Button>
     </div>
 
     {loading ? (
