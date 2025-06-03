@@ -32,6 +32,7 @@ const PaymentPage: React.FC = () => {
     localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod));
 
     // Rediriger vers la page de révision de la commande (PlaceOrderPage)
+    toast.success("Méthode de paiement sélectionné !")
     navigate('/placeorder');
   };
 
@@ -53,10 +54,10 @@ const PaymentPage: React.FC = () => {
                 <Label htmlFor="paypal">PayPal ou Carte de Crédit</Label>
               </div>
               {/* Vous pouvez ajouter d'autres options ici plus tard */}
-              {/* <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Stripe" id="stripe" />
                 <Label htmlFor="stripe">Stripe</Label>
-              </div> */}
+              </div>
             </RadioGroup>
             <Button type="submit" className="w-full">
               Continuer

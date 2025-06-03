@@ -1,9 +1,10 @@
 // frontend/src/context/cartContext.tsx
 import type { ReactNode } from 'react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { toast } from 'sonner'
+import { toast } from 'sonner';
+
 // Interface pour un article du panier
-interface CartItem {
+export interface CartItem {
   _id: string;
   name: string;
   imageUrl: string;

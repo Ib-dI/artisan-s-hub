@@ -27,6 +27,7 @@ const ShippingPage: React.FC = () => {
       toast.error("Panier vide", {
         description: "Ajoutez des articles à votre panier avant de commander."
       });
+      navigate('/products')
       return;
     }
 
@@ -41,6 +42,8 @@ const ShippingPage: React.FC = () => {
     // Sauvegarder les infos de livraison (simplement dans localStorage pour l'instant)
     const shippingInfo = { address, city, postalCode, country };
     localStorage.setItem('shippingAddress', JSON.stringify(shippingInfo));
+
+    toast.success("Adresse de livraison enregistrée !")
 
     // Rediriger vers la page de paiement
     navigate('/payment');
@@ -63,6 +66,7 @@ const ShippingPage: React.FC = () => {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 required
+                className='mt-3'
               />
             </div>
             <div>
@@ -74,6 +78,7 @@ const ShippingPage: React.FC = () => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 required
+                className='mt-3'
               />
             </div>
             <div>
@@ -85,6 +90,7 @@ const ShippingPage: React.FC = () => {
                 value={postalCode}
                 onChange={(e) => setPostalCode(e.target.value)}
                 required
+                className='mt-3'
               />
             </div>
             <div>
@@ -96,6 +102,7 @@ const ShippingPage: React.FC = () => {
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
                 required
+                className='my-3'
               />
             </div>
             <Button type="submit" className="w-full">

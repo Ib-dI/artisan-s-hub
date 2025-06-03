@@ -1,15 +1,40 @@
 // frontend/src/pages/CartPage.tsx
-import React from 'react';
-import { useCart } from '@/context/cartContext';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input'; // Pour la quantité
-import { Trash2 } from 'lucide-react'; // Pour l'icône de suppression (nécessite 'lucide-react')
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import type { CartItem } from '@/context/cartContext';
+import { useCart } from '@/context/cartContext';
+import { Trash2 } from 'lucide-react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { toast } from 'sonner';
 
 const CartPage: React.FC = () => {
   const { cartItems, removeFromCart, updateCartQuantity, clearCart, getTotalPrice, getTotalItems } = useCart();
+
+  const handleUpdateQuantity = (item: CartItem, value: string) => {
+    const newQuantity = parseInt(value);
+    if (!isNaN(newQuantity) && newQuantity >= 1) {
+      if (newQuantity > item.countInStock) {
+        toast.error(`La quantité de "${item.name}" ne peut excéder le stock disponible (${item.countInStock}).`);
+        updateCartQuantity(item._id, item.countInStock);
+      } else {
+        updateCartQuantity(item._id, newQuantity);
+      }
+    } else if (value === '') {
+        updateCartQuantity(item._id, 1);
+    }
+  };
+
+  const handleRemoveItem = (id: string, name: string) => {
+    removeFromCart(id);
+    toast.info(`${name} a été retiré du panier.`);
+  };
+
+  const handleClearCart = () => {
+    clearCart();
+    toast.info("Votre panier a été vidé.");
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -25,7 +50,6 @@ const CartPage: React.FC = () => {
         </Card>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Colonne des articles du panier */}
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map((item) => (
               <Card key={item._id} className="flex items-center p-4">
@@ -38,15 +62,15 @@ const CartPage: React.FC = () => {
                   <Input
                     type="number"
                     min="1"
-                    max={item.countInStock} // Limite supérieure basée sur le stock
+                    max={item.countInStock}
                     value={item.quantity}
-                    onChange={(e) => updateCartQuantity(item._id, parseInt(e.target.value))}
+                    onChange={(e) => handleUpdateQuantity(item, e.target.value)}
                     className="w-20 text-center"
                   />
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => removeFromCart(item._id)}
+                    onClick={() => handleRemoveItem(item._id, item.name)}
                   >
                     <Trash2 className="h-5 w-5 text-destructive" />
                   </Button>
@@ -55,14 +79,13 @@ const CartPage: React.FC = () => {
             ))}
             <Button
               variant="outline"
-              onClick={clearCart}
+              onClick={handleClearCart}
               className="w-full mt-4"
             >
               Vider le panier
             </Button>
           </div>
 
-          {/* Colonne du résumé du panier */}
           <Card className="lg:col-span-1 p-6 h-fit">
             <CardHeader className="p-0 mb-4">
               <CardTitle className="text-2xl">Résumé du Panier</CardTitle>
@@ -76,7 +99,12 @@ const CartPage: React.FC = () => {
                 <p>Total :</p>
                 <p>{getTotalPrice().toFixed(2)} €</p>
               </div>
-              <Button className="w-full mt-6">Passer à la caisse</Button>
+              {/* Le lien vers ShippingPage */}
+              <Link to="/shipping">
+                <Button className="w-full mt-6" disabled={cartItems.length === 0}>
+                  Passer à la caisse
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
