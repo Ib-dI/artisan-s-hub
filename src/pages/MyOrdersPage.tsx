@@ -1,13 +1,13 @@
 // frontend/src/pages/MyOrdersPage.tsx
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import api from '@/lib/api';
-import { AxiosError } from 'axios';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import api from '@/lib/api';
+import { AxiosError } from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 
 // Interface pour la structure des données d'une commande simplifiée pour la liste
@@ -55,8 +55,8 @@ const MyOrdersPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-6 text-center">Mes Commandes</h1>
+      <div className="container mx-auto p-4 font-inter">
+        <h1 className="text-3xl font-geist font-bold mb-6 text-center text-primary">Mes Commandes</h1>
         <Skeleton className="h-20 w-full mb-4" />
         <Skeleton className="h-96 w-full" />
       </div>
@@ -65,10 +65,10 @@ const MyOrdersPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="container mx-auto p-4 text-center">
-        <h1 className="text-3xl font-bold mb-4">Erreur de chargement</h1>
+      <div className="container mx-auto p-4 text-center font-inter">
+        <h1 className="text-3xl font-geist font-bold mb-4 text-primary">Erreur de chargement</h1>
         <p className="text-destructive text-lg">{error}</p>
-        <Button asChild className="mt-6">
+        <Button asChild className="mt-6 font-inter">
           <Link to="/">Retour à l'accueil</Link>
         </Button>
       </div>
@@ -76,15 +76,15 @@ const MyOrdersPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center">Mes Commandes</h1>
+    <div className="container mx-auto p-4 font-inter">
+      <h1 className="text-3xl font-geist font-bold mb-6 text-center text-primary">Mes Commandes</h1>
 
       {orders.length === 0 ? (
         <Card className="text-center p-8">
-          <CardTitle className="text-2xl mb-4">Vous n'avez pas encore de commandes</CardTitle>
+          <CardTitle className="text-2xl mb-4 font-geist">Vous n'avez pas encore de commandes</CardTitle>
           <p className="mb-6">Commencez à explorer nos produits artisanaux uniques !</p>
           <Link to="/products">
-            <Button>Découvrir les produits</Button>
+            <Button className="font-inter">Découvrir les produits</Button>
           </Link>
         </Card>
       ) : (
@@ -92,40 +92,40 @@ const MyOrdersPage: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>ID de la Commande</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Payée</TableHead>
-                <TableHead>Livrée</TableHead>
+                <TableHead className="font-geist">ID de la Commande</TableHead>
+                <TableHead className="font-geist">Date</TableHead>
+                <TableHead className="font-geist">Total</TableHead>
+                <TableHead className="font-geist">Payée</TableHead>
+                <TableHead className="font-geist">Livrée</TableHead>
                 <TableHead></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {orders.map((order) => (
                 <TableRow key={order._id}>
-                  <TableCell className="font-medium">{order._id.substring(order._id.length - 6)}</TableCell> {/* Affiche les 6 derniers caractères de l'ID */}
-                  <TableCell>{new Date(order.createdAt).toLocaleDateString()}</TableCell>
-                  <TableCell>{order.totalPrice.toFixed(2)}€</TableCell>
+                  <TableCell className="font-medium font-geist">{order._id.substring(order._id.length - 6)}</TableCell>
+                  <TableCell className="font-inter">{new Date(order.createdAt).toLocaleDateString()}</TableCell>
+                  <TableCell className="font-geist">{order.totalPrice.toFixed(2)}€</TableCell>
                   <TableCell>
                     {order.isPaid ? (
-                      <Badge className="bg-green-100 text-green-800 hover:bg-green-200">
+                      <Badge className="bg-green-100 text-green-800 hover:bg-green-200 font-inter">
                         Oui ({order.paidAt ? new Date(order.paidAt).toLocaleDateString() : 'N/A'})
                       </Badge>
                     ) : (
-                      <Badge variant="destructive">Non</Badge>
+                      <Badge variant="destructive" className="font-inter">Non</Badge>
                     )}
                   </TableCell>
                   <TableCell>
                     {order.isDelivered ? (
-                      <Badge className="bg-green-100 text-green-800 hover:bg-green-200">
+                      <Badge className="bg-green-100 text-green-800 hover:bg-green-200 font-inter">
                         Oui ({order.deliveredAt ? new Date(order.deliveredAt).toLocaleDateString() : 'N/A'})
                       </Badge>
                     ) : (
-                      <Badge variant="secondary">Non</Badge>
+                      <Badge variant="secondary" className="font-inter">Non</Badge>
                     )}
                   </TableCell>
                   <TableCell>
-                    <Button asChild variant="outline" size="sm">
+                    <Button asChild variant="outline" size="sm" className="font-inter">
                       <Link to={`/order/${order._id}`}>Détails</Link>
                     </Button>
                   </TableCell>

@@ -106,7 +106,7 @@ const OrderPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-6 font-inter">
         <div className="lg:col-span-2 space-y-6">
           <Skeleton className="h-48 w-full" />
           <Skeleton className="h-36 w-full" />
@@ -119,10 +119,10 @@ const OrderPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="container mx-auto p-4 text-center">
-        <h1 className="text-3xl font-bold mb-4">Erreur de chargement</h1>
+      <div className="container mx-auto p-4 text-center font-inter">
+        <h1 className="text-3xl font-geist font-bold mb-4 text-primary">Erreur de chargement</h1>
         <p className="text-destructive text-lg">{error}</p>
-        <Button asChild className="mt-6">
+        <Button asChild className="mt-6 font-inter">
           <Link to="/">Retour à l'accueil</Link>
         </Button>
       </div>
@@ -131,10 +131,10 @@ const OrderPage: React.FC = () => {
 
   if (!order) {
     return (
-      <div className="container mx-auto p-4 text-center">
-        <h1 className="text-3xl font-bold mb-4">Commande introuvable</h1>
+      <div className="container mx-auto p-4 text-center font-inter">
+        <h1 className="text-3xl font-geist font-bold mb-4 text-primary">Commande introuvable</h1>
         <p className="text-muted-foreground text-lg">La commande que vous recherchez n'existe pas ou vous n'avez pas les permissions pour la voir.</p>
-        <Button asChild className="mt-6">
+        <Button asChild className="mt-6 font-inter">
           <Link to="/profile">Mes Commandes</Link>
         </Button>
       </div>
@@ -142,27 +142,27 @@ const OrderPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-6 font-inter">
       {/* Colonne des détails de la commande */}
       <div className="lg:col-span-2 space-y-6">
-        <h1 className="text-3xl font-bold mb-4">Commande {order._id}</h1>
+        <h1 className="text-3xl font-geist font-bold mb-4 text-primary">Commande {order._id}</h1>
 
         <Card>
           <CardHeader>
-            <CardTitle>Adresse de Livraison</CardTitle>
+            <CardTitle className="font-geist">Adresse de Livraison</CardTitle>
           </CardHeader>
           <CardContent>
-            <p><strong>Nom d'utilisateur:</strong> {order.user.username}</p>
-            <p><strong>Email:</strong> <a href={`mailto:${order.user.email}`}>{order.user.email}</a></p>
+            <p><strong className="font-geist">Nom d'utilisateur:</strong> {order.user.username}</p>
+            <p><strong className="font-geist">Email:</strong> <a href={`mailto:${order.user.email}`}>{order.user.email}</a></p>
             <Separator className="my-2" />
-            <p><strong>Adresse:</strong> {order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.country}</p>
+            <p><strong className="font-geist">Adresse:</strong> {order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.country}</p>
             <div className="mt-4">
                 {order.isDelivered ? (
-                    <p className="text-sm font-semibold text-green-600 bg-green-50 p-2 rounded-md inline-block">
+                    <p className="text-sm font-semibold text-green-600 bg-green-50 p-2 rounded-md inline-block font-inter">
                         Livrée le {new Date(order.deliveredAt!).toLocaleDateString()}
                     </p>
                 ) : (
-                    <p className="text-sm font-semibold text-orange-600 bg-orange-50 p-2 rounded-md inline-block">
+                    <p className="text-sm font-semibold text-orange-600 bg-orange-50 p-2 rounded-md inline-block font-inter">
                         Non Livrée
                     </p>
                 )}
@@ -172,26 +172,26 @@ const OrderPage: React.FC = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Paiement</CardTitle>
+            <CardTitle className="font-geist">Paiement</CardTitle>
           </CardHeader>
           <CardContent>
-            <p><strong>Méthode:</strong> {order.paymentMethod}</p>
+            <p><strong className="font-geist">Méthode:</strong> {order.paymentMethod}</p>
             <div className="mt-4">
                 {order.isPaid ? (
-                    <p className="text-sm font-semibold text-green-600 bg-green-50 p-2 rounded-md inline-block">
+                    <p className="text-sm font-semibold text-green-600 bg-green-50 p-2 rounded-md inline-block font-inter">
                         Payée le {new Date(order.paidAt!).toLocaleDateString()}
                         {order.paymentResult && (
                             <span className="ml-2">({order.paymentResult.id})</span>
                         )}
                     </p>
                 ) : (
-                    <p className="text-sm font-semibold text-red-600 bg-red-50 p-2 rounded-md inline-block">
+                    <p className="text-sm font-semibold text-red-600 bg-red-50 p-2 rounded-md inline-block font-inter">
                         Non Payée
                     </p>
                 )}
             </div>
             {!order.isPaid && (
-                <Button className="mt-4" disabled>
+                <Button className="mt-4 font-inter" disabled>
                     Payer la commande (intégration à venir)
                 </Button>
                 // Ici, vous intégrerez un composant PayPal/Stripe
@@ -201,11 +201,11 @@ const OrderPage: React.FC = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Articles Commandés</CardTitle>
+            <CardTitle className="font-geist">Articles Commandés</CardTitle>
           </CardHeader>
           <CardContent>
             {order.orderItems.length === 0 ? (
-              <p>Aucun article dans cette commande.</p>
+              <p className="font-inter">Aucun article dans cette commande.</p>
             ) : (
               <div className="space-y-4">
                 {order.orderItems.map((item) => (
@@ -213,13 +213,13 @@ const OrderPage: React.FC = () => {
                     <div className="flex items-center">
                       <img src={item.image || 'https://via.placeholder.com/50'} alt={item.name} className="w-12 h-12 object-cover rounded-md mr-4" />
                       <div>
-                        <Link to={`/products/${item.product._id}`} className="font-semibold hover:underline">
+                        <Link to={`/products/${item.product._id}`} className="font-geist font-semibold hover:underline">
                             {item.name}
                         </Link>
-                        <p className="text-xs text-muted-foreground">Par : {item.artisan?.companyName || item.artisan?.username || 'Inconnu'}</p>
+                        <p className="text-xs text-muted-foreground font-inter">Par : {item.artisan?.companyName || item.artisan?.username || 'Inconnu'}</p>
                       </div>
                     </div>
-                    <p>{item.qty} x {item.price.toFixed(2)}€ = {(item.qty * item.price).toFixed(2)}€</p>
+                    <p className="font-geist">{item.qty} x {item.price.toFixed(2)}€ = {(item.qty * item.price).toFixed(2)}€</p>
                   </div>
                 ))}
               </div>
@@ -231,26 +231,26 @@ const OrderPage: React.FC = () => {
       {/* Colonne du résumé de la commande */}
       <Card className="lg:col-span-1 h-fit">
         <CardHeader>
-          <CardTitle>Résumé de la Commande</CardTitle>
+          <CardTitle className="font-geist">Résumé de la Commande</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span>Articles:</span>
-              <span>{order.itemsPrice.toFixed(2)}€</span>
+              <span className="font-inter">Articles:</span>
+              <span className="font-geist">{order.itemsPrice.toFixed(2)}€</span>
             </div>
             <div className="flex justify-between">
-              <span>Livraison:</span>
-              <span>{order.shippingPrice.toFixed(2)}€</span>
+              <span className="font-inter">Livraison:</span>
+              <span className="font-geist">{order.shippingPrice.toFixed(2)}€</span>
             </div>
             <div className="flex justify-between">
-              <span>Taxes:</span>
-              <span>{order.taxPrice.toFixed(2)}€</span>
+              <span className="font-inter">Taxes:</span>
+              <span className="font-geist">{order.taxPrice.toFixed(2)}€</span>
             </div>
             <Separator className="my-4" />
-            <div className="flex justify-between text-xl font-bold">
-              <span>Total:</span>
-              <span>{order.totalPrice.toFixed(2)}€</span>
+            <div className="flex justify-between text-lg font-bold">
+              <span className="font-geist">Total:</span>
+              <span className="font-geist">{order.totalPrice.toFixed(2)}€</span>
             </div>
           </div>
         </CardContent>

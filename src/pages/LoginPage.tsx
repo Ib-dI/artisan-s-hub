@@ -43,7 +43,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[calc(100vh-64px)] bg-background p-4">
+    <div className="flex justify-center items-center min-h-[calc(100vh-64px)] bg-background p-4 font-inter">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-geist text-primary">Connexion</CardTitle>
@@ -63,7 +63,7 @@ const LoginPage: React.FC = () => {
                     <FormControl>
                       <Input className="font-inter" placeholder="votre.email@exemple.com" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="font-inter" />
                   </FormItem>
                 )}
               />
@@ -76,12 +76,12 @@ const LoginPage: React.FC = () => {
                     <FormControl>
                       <Input className="font-inter" type="password" placeholder="********" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="font-inter" />
                   </FormItem>
                 )}
               />
               {error && <p className="text-red-500 text-sm font-inter">{error}</p>}
-              <Button type="submit" className="w-full font-geist" disabled={isLoading}>
+              <Button type="submit" className="w-full font-inter" disabled={isLoading}>
                 {isLoading ? "Connexion en cours..." : "Se connecter"}
               </Button>
             </form>

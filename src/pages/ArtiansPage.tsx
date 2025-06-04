@@ -1,10 +1,10 @@
 // frontend/src/pages/ArtisansPage.tsx
-import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import api from '@/lib/api';
 import { AxiosError } from 'axios';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Interface pour la structure des données d'un artisan telle que renvoyée par le backend
@@ -74,37 +74,36 @@ const ArtisansPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-geist font-bold mb-6 text-center">Nos Artisans Créateurs</h1>
+    <div className="container mx-auto p-4 font-inter">
+      <h1 className="text-3xl font-geist font-bold mb-6 text-center text-primary">Nos Artisans Créateurs</h1>
 
       {artisans.length === 0 ? (
-        <p className="text-center text-lg text-muted-foreground">Aucun artisan n'est enregistré pour le moment. Revenez bientôt !</p>
+        <p className="text-center text-lg text-muted-foreground font-inter">Aucun artisan n'est enregistré pour le moment. Revenez bientôt !</p>
       ) : (
-        <div className="font-inter grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {artisans.map((artisan) => (
             <Card key={artisan._id} className="overflow-hidden flex flex-col h-full items-center text-center p-4">
               {artisan.profilePicture ? (
                 <img src={artisan.profilePicture} alt={artisan.companyName || artisan.username} className="w-24 h-24 rounded-full object-cover mb-4 shadow-md" />
               ) : (
-                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-4 text-gray-500 text-3xl font-bold">
+                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-4 text-gray-500 text-3xl font-bold font-geist">
                     {artisan.username.charAt(0).toUpperCase()}
                 </div>
               )}
               <CardHeader className="flex-grow w-full">
-                <CardTitle className="text-xl">{artisan.companyName || artisan.username}</CardTitle>
+                <CardTitle className="text-xl font-geist">{artisan.companyName || artisan.username}</CardTitle>
                 {artisan.companyName && (
-                  <CardDescription className="text-sm text-muted-foreground">
+                  <CardDescription className="text-sm text-muted-foreground font-inter">
                     (Artisan: {artisan.username})
                   </CardDescription>
                 )}
-                <CardDescription className="text-sm mt-2 line-clamp-3">
+                <CardDescription className="text-sm mt-2 line-clamp-3 font-inter">
                   {artisan.bio || 'Découvrez les créations uniques de cet artisan passionné.'}
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-4 pt-0 w-full">
-                <p className="text-base text-muted-foreground mb-4">{artisan.email}</p>
-                {/* Optionnel: Ajoutez un lien pour voir les produits de cet artisan */}
-                <Button asChild className="w-full">
+                <p className="text-base text-muted-foreground mb-4 font-inter">{artisan.email}</p>
+                <Button asChild className="w-full font-inter">
                     <Link to={`/products?artisanId=${artisan._id}`}>Voir ses produits</Link>
                 </Button>
               </CardContent>

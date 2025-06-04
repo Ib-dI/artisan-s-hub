@@ -37,13 +37,13 @@ const CartPage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center">Votre Panier</h1>
+    <div className="container mx-auto p-4 font-inter">
+      <h1 className="text-3xl font-geist font-bold mb-6 text-center text-primary">Votre Panier</h1>
 
       {cartItems.length === 0 ? (
         <Card className="text-center p-8">
           <CardTitle className="text-2xl mb-4">Votre panier est vide</CardTitle>
-          <p className="mb-6">Il est temps de découvrir nos magnifiques produits artisanaux !</p>
+          <p className="mb-6 font-inter">Il est temps de découvrir nos magnifiques produits artisanaux !</p>
           <Link to="/products">
             <Button>Explorer les produits</Button>
           </Link>
@@ -55,8 +55,8 @@ const CartPage: React.FC = () => {
               <Card key={item._id} className="flex items-center p-4">
                 <img src={item.imageUrl || 'https://via.placeholder.com/100'} alt={item.name} className="w-24 h-24 object-cover rounded-md mr-4" />
                 <div className="flex-grow">
-                  <h2 className="text-lg font-semibold">{item.name}</h2>
-                  <p className="text-muted-foreground">{item.price.toFixed(2)} €</p>
+                  <h2 className="text-lg font-geist font-semibold">{item.name}</h2>
+                  <p className="text-muted-foreground font-inter">{item.price.toFixed(2)} €</p>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Input
@@ -65,7 +65,7 @@ const CartPage: React.FC = () => {
                     max={item.countInStock}
                     value={item.quantity}
                     onChange={(e) => handleUpdateQuantity(item, e.target.value)}
-                    className="w-20 text-center"
+                    className="w-20 text-center font-inter"
                   />
                   <Button
                     variant="ghost"
@@ -80,7 +80,7 @@ const CartPage: React.FC = () => {
             <Button
               variant="outline"
               onClick={handleClearCart}
-              className="w-full mt-4"
+              className="w-full mt-4 font-inter"
             >
               Vider le panier
             </Button>
@@ -92,16 +92,15 @@ const CartPage: React.FC = () => {
             </CardHeader>
             <CardContent className="p-0">
               <div className="flex justify-between items-center mb-2">
-                <p>Nombre d'articles :</p>
-                <p className="font-semibold">{getTotalItems()}</p>
+                <p className="font-inter">Nombre d'articles :</p>
+                <p className="font-geist font-semibold">{getTotalItems()}</p>
               </div>
               <div className="flex justify-between items-center text-xl font-bold border-t pt-4 mt-4">
-                <p>Total :</p>
-                <p>{getTotalPrice().toFixed(2)} €</p>
+                <p className="font-inter">Total :</p>
+                <p className="font-geist">{getTotalPrice().toFixed(2)} €</p>
               </div>
-              {/* Le lien vers ShippingPage */}
               <Link to="/shipping">
-                <Button className="w-full mt-6" disabled={cartItems.length === 0}>
+                <Button className="w-full mt-6 font-inter" disabled={cartItems.length === 0}>
                   Passer à la caisse
                 </Button>
               </Link>

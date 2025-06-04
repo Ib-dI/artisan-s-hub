@@ -122,8 +122,8 @@ const handleSearch = (e: React.FormEvent) => {
 };
 
 return (
-  <div className="container mx-auto p-4">
-    <h1 className="text-3xl font-bold mb-6 text-center">
+  <div className="container mx-auto p-4 font-inter">
+    <h1 className="text-3xl font-geist font-bold mb-6 text-center text-primary">
       {artisanId ? `Produits de ${artisanName}` : 'Nos Produits Artisanaux'}
     </h1>
 
@@ -135,21 +135,21 @@ return (
           placeholder="Rechercher des produits..."
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          className="flex-grow"
+          className="flex-grow font-inter"
         />
-        <Button type="submit" size="icon">
+        <Button type="submit" size="icon" className="font-inter">
           <Search className="h-4 w-4" />
         </Button>
       </form>
 
       <Select value={category} onValueChange={setCategory}>
-        <SelectTrigger className="w-full md:w-[180px]">
+        <SelectTrigger className="w-full md:w-[180px] font-inter">
           <SelectValue placeholder="Toutes les catégories" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Toutes les catégories</SelectItem>
+          <SelectItem value="all" className="font-inter">Toutes les catégories</SelectItem>
           {categories.map((cat) => (
-            <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+            <SelectItem key={cat} value={cat} className="font-inter">{cat}</SelectItem>
           ))}
         </SelectContent>
       </Select>
@@ -162,6 +162,7 @@ return (
             setSearchParams({});
           }
         }}
+        className="font-inter"
       >
         Réinitialiser les filtres
       </Button>
@@ -181,29 +182,29 @@ return (
         ))}
       </div>
     ) : error ? (
-      <p className="text-red-500 text-center text-lg">{error}</p>
+      <p className="text-red-500 text-center text-lg font-inter">{error}</p>
     ) : products.length === 0 ? (
-      <p className="text-center text-lg text-muted-foreground">Aucun produit trouvé pour votre recherche.</p>
+      <p className="text-center text-lg text-muted-foreground font-inter">Aucun produit trouvé pour votre recherche.</p>
     ) : (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {products.map((product) => (
           <Card key={product._id} className="overflow-hidden flex flex-col h-full">
             <img src={product.imageUrl || 'https://via.placeholder.com/300'} alt={product.name} className="w-full h-48 object-cover" />
             <CardHeader className="flex-grow">
-              <CardTitle className="text-xl">{product.name}</CardTitle>
-              <CardDescription className="text-sm text-muted-foreground">
+              <CardTitle className="text-xl font-geist">{product.name}</CardTitle>
+              <CardDescription className="text-sm text-muted-foreground font-inter">
                 Par {product.artisan?.companyName || product.artisan?.username || 'Artisan inconnu'}
               </CardDescription>
             </CardHeader>
             <CardContent className="p-4 pt-0">
-              <p className="text-lg font-semibold mb-2">{product.price.toFixed(2)} €</p>
-              <p className="text-sm text-muted-foreground line-clamp-2">{product.description}</p>
+              <p className="text-lg font-geist font-semibold mb-2">{product.price.toFixed(2)} €</p>
+              <p className="text-sm text-muted-foreground line-clamp-2 font-inter">{product.description}</p>
               {product.quantity > 0 ? (
-                <Button className="mt-4 w-full" onClick={() => handleAddToCart(product)}>
+                <Button className="mt-4 w-full font-inter" onClick={() => handleAddToCart(product)}>
                   Ajouter au panier
                 </Button>
               ) : (
-                <Button className="mt-4 w-full" disabled>
+                <Button className="mt-4 w-full font-inter" disabled>
                   En rupture de stock
                 </Button>
               )}

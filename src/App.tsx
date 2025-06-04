@@ -2,36 +2,37 @@ import { Route, Routes } from "react-router-dom";
 import LoginPage from ".//pages/LoginPage";
 import Navbar from "./components/Navbar"; // Importe la Navbar
 import ProtectedRoute from "./components/ProtectedRoute";
+import { Toaster } from "./components/ui/sonner";
+import ArtisansPage from "./pages/ArtiansPage";
 import CartPage from "./pages/CartPage";
 import DashboardPage from "./pages/DashboardPage";
+import HomePage from './pages/HomePage';
+import MyOrdersPage from "./pages/MyOrdersPage";
+import OrderPage from "./pages/OrderPage";
+import PaymentPage from "./pages/PayementPage";
+import PlaceOrderPage from "./pages/PlaceOrderPage";
 import ProductsPage from "./pages/ProdutcsPage";
 import ProfilePage from "./pages/ProfilePage";
 import RegisterPage from "./pages/RegisterPage";
 import ShippingPage from "./pages/ShippingPage";
-import PaymentPage from "./pages/PayementPage";
-import PlaceOrderPage from "./pages/PlaceOrderPage";
-import OrderPage from "./pages/OrderPage";
-import MyOrdersPage from "./pages/MyOrdersPage";
-import ArtisansPage from "./pages/ArtiansPage";
-import { Toaster } from "./components/ui/sonner";
 
-function HomePage() {
-	return (
-		<div className="min-h-[calc(100vh-64px)] bg-background text-foreground flex flex-col items-center justify-center p-4">
-			<h1 className="font-geist font-bold text-primary mb-6 animate-pulse text-600 text-balance mx-auto max-w-[600px] text-center text-5xl  !leading-[1.0] tracking-tighter lg:max-w-[900px] md:text-6xl">
-				Bienvenue sur Artisan's Hub.
-			</h1>
-			<p className="text-md md:text-xl px-2.5 font-inter text-foreground mb-8">
-				Découvrez des créations uniques et faites main par des artisans
-				passionnés. Chaque pièce raconte une histoire, témoigne d'un
-				savoir-faire ancestral et incarne l'authenticité de l'artisanat local.
-				Des bijoux délicats aux meubles d'exception, chaque création est le
-				fruit d'une passion et d'un engagement pour l'excellence.
-			</p>
-			{/* Plus tard, ajoutera un carrousel de produits ou des sections de découverte */}
-		</div>
-	);
-}
+// function HomePage() {
+// 	return (
+// 		<div className="min-h-[calc(100vh-64px)] bg-background text-foreground flex flex-col items-center justify-center p-4">
+// 			<h1 className="font-geist font-bold text-primary mb-6 animate-pulse text-600 text-balance mx-auto max-w-[600px] text-center text-5xl  !leading-[1.0] tracking-tighter lg:max-w-[900px] md:text-6xl">
+// 				Bienvenue sur Artisan's Hub.
+// 			</h1>
+// 			<p className="text-md md:text-xl px-2.5 font-inter text-foreground mb-8">
+// 				Découvrez des créations uniques et faites main par des artisans
+// 				passionnés. Chaque pièce raconte une histoire, témoigne d'un
+// 				savoir-faire ancestral et incarne l'authenticité de l'artisanat local.
+// 				Des bijoux délicats aux meubles d'exception, chaque création est le
+// 				fruit d'une passion et d'un engagement pour l'excellence.
+// 			</p>
+// 			{/* Plus tard, ajoutera un carrousel de produits ou des sections de découverte */}
+// 		</div>
+// 	);
+// }
 
 function App() {
 	return (

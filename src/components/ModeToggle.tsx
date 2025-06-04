@@ -1,51 +1,46 @@
-import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
+// frontend/src/components/mode-toggle.tsx
 
-type Theme = "light" | "dark" | "system";
+import { useTheme } from "@/components/ThemeProvider"
+import { Moon, Sun } from "lucide-react"
 
-const ModeToggle = () => {
-	const [theme, setTheme] = useState<Theme>(
-		() => (localStorage.getItem("theme") as Theme) || "system"
-	);
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
-	useEffect(() => {
-		const root = window.document.documentElement;
-		root.classList.remove("light", "dark");
-		if (theme === "system") {
-			const systemTheme = window.matchMedia("(prefers-color-scheme : dark)")
-				.matches
-				? "dark"
-				: "light";
-			root.classList.add(systemTheme);
-		} else {
-			root.classList.add(theme);
-		}
-		localStorage.setItem("theme", theme);
-	}, [theme]);
+export default function ModeToggle() {
+  const { setTheme } = useTheme()
 
-	return (
+  return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
+        {/* Le Button est l'enfant unique du DropdownMenuTrigger. */}
+        {/* Nous nous assurons que le Button lui-même n'a qu'UN SEUL enfant direct */}
+        {/* en enveloppant TOUT son contenu visible et accessible dans un seul fragment ou div. */}
+        <Button variant="ghost" size="icon" className="hover:bg-transparent">
+          {/* Utilisation d'un fragment React pour grouper les icônes et le span sr-only */}
+          {/* Le Button reçoit un seul enfant (le fragment), qui contient ensuite les icônes et le span */}
+          <>
+            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-foreground" />
+            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-foreground" />
+            <span className="sr-only">Toggle theme</span>
+          </>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
+          Clair
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
+          Sombre
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
+          Système
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
-};
-export default ModeToggle;
+}

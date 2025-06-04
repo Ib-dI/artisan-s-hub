@@ -1,8 +1,8 @@
 // frontend/src/ProfilePage.tsx
 // import React, { useEffect, useState } from 'react';
-import { useAuth } from '@/context/authContext';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { useAuth } from '@/context/authContext';
 
 // Définition des types pour l'utilisateur (peut être partagée depuis authContext.tsx si besoin)
 // interface User {
@@ -23,14 +23,14 @@ const ProfilePage: React.FC = () => {
   if (!user) {
     // Cela ne devrait normalement pas arriver grâce à ProtectedRoute, mais c'est une bonne sécurité
     return (
-      <div className="min-h-[calc(100vh-64px)] bg-background text-foreground flex justify-center items-center p-4">
+      <div className="min-h-[calc(100vh-64px)] bg-background text-foreground flex justify-center items-center p-4 font-inter">
         <p className="font-inter">Veuillez vous connecter pour voir votre profil.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-background text-foreground flex justify-center items-center p-4">
+    <div className="min-h-[calc(100vh-64px)] bg-background text-foreground flex justify-center items-center p-4 font-inter">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-geist text-primary">Mon Profil</CardTitle>

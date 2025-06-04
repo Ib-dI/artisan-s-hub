@@ -2,12 +2,12 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/ui/table'; // Composants Table
 import { useAuth } from '@/context/authContext';
 import api from '@/lib/api'; // Pour les appels API
@@ -105,7 +105,7 @@ const DashboardPage: React.FC = () => {
 
   if (!user || user.role !== 'artisan') {
     return (
-      <div className="min-h-[calc(100vh-64px)] bg-background text-foreground flex justify-center items-center p-4">
+      <div className="min-h-[calc(100vh-64px)] bg-background text-foreground flex justify-center items-center p-4 font-inter">
         <Card className="max-w-md w-full text-center">
           <CardHeader>
             <CardTitle className="text-2xl font-geist text-destructive">Accès Refusé</CardTitle>
@@ -121,7 +121,7 @@ const DashboardPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-background text-foreground p-8">
+    <div className="min-h-[calc(100vh-64px)] bg-background text-foreground p-8 font-inter">
       <Card className="w-full">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <div>
@@ -132,13 +132,13 @@ const DashboardPage: React.FC = () => {
           </div>
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="font-geist">
+              <Button className="font-inter">
                 <PlusCircle className="mr-2 h-4 w-4" /> Ajouter un produit
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle className="font-geist">Ajouter un nouveau produit</DialogTitle>
+                <DialogTitle className="font-geist text-primary">Ajouter un nouveau produit</DialogTitle>
                 <CardDescription className="font-inter">
                   Remplissez les informations du nouveau produit.
                 </CardDescription>
@@ -178,14 +178,14 @@ const DashboardPage: React.FC = () => {
                       </TableCell>
                       <TableCell className="font-inter font-medium">{product.name}</TableCell>
                       <TableCell className="font-inter">{product.category}</TableCell>
-                      <TableCell className="font-inter">{product.price.toFixed(2)} €</TableCell>
+                      <TableCell className="font-geist">{product.price.toFixed(2)} €</TableCell>
                       <TableCell className="font-inter">{product.quantity}</TableCell>
                       <TableCell className="text-right">
                         <Button
                           variant="ghost"
                           size="icon"
                           onClick={() => handleEditProduct(product)}
-                          className="mr-2"
+                          className="mr-2 font-inter"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -193,6 +193,7 @@ const DashboardPage: React.FC = () => {
                           variant="ghost"
                           size="icon"
                           onClick={() => handleDeleteProduct(product._id)}
+                          className="font-inter"
                         >
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
@@ -206,20 +207,23 @@ const DashboardPage: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Dialog pour Modifier un produit */}
-      {selectedProduct && (
-        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle className="font-geist">Modifier le produit</DialogTitle>
-              <CardDescription className="font-inter">
-                Mettez à jour les informations de {selectedProduct.name}.
-              </CardDescription>
-            </DialogHeader>
-            <EditProductForm product={selectedProduct} onProductUpdated={handleProductUpdated} />
-          </DialogContent>
-        </Dialog>
-      )}
+      {/* Dialog pour l'édition */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="font-geist text-primary">Modifier le produit</DialogTitle>
+            <CardDescription className="font-inter">
+              Modifiez les informations du produit.
+            </CardDescription>
+          </DialogHeader>
+          {selectedProduct && (
+            <EditProductForm
+              product={selectedProduct}
+              onProductUpdated={handleProductUpdated}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

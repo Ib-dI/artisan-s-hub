@@ -50,15 +50,15 @@ const ShippingPage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 flex justify-center items-center min-h-[calc(100vh-64px)]">
+    <div className="container mx-auto p-4 flex justify-center items-center min-h-[calc(100vh-64px)] font-inter">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Adresse de Livraison</CardTitle>
+          <CardTitle className="text-2xl text-center font-geist text-primary">Adresse de Livraison</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={submitHandler} className="space-y-4">
             <div>
-              <Label htmlFor="address">Adresse</Label>
+              <Label htmlFor="address" className="font-inter">Adresse</Label>
               <Input
                 id="address"
                 type="text"
@@ -66,11 +66,11 @@ const ShippingPage: React.FC = () => {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 required
-                className='mt-3'
+                className='mt-3 font-inter'
               />
             </div>
             <div>
-              <Label htmlFor="city">Ville</Label>
+              <Label htmlFor="city" className="font-inter">Ville</Label>
               <Input
                 id="city"
                 type="text"
@@ -78,11 +78,11 @@ const ShippingPage: React.FC = () => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 required
-                className='mt-3'
+                className='mt-3 font-inter'
               />
             </div>
             <div>
-              <Label htmlFor="postalCode">Code Postal</Label>
+              <Label htmlFor="postalCode" className="font-inter">Code Postal</Label>
               <Input
                 id="postalCode"
                 type="text"
@@ -90,11 +90,11 @@ const ShippingPage: React.FC = () => {
                 value={postalCode}
                 onChange={(e) => setPostalCode(e.target.value)}
                 required
-                className='mt-3'
+                className='mt-3 font-inter'
               />
             </div>
             <div>
-              <Label htmlFor="country">Pays</Label>
+              <Label htmlFor="country" className="font-inter">Pays</Label>
               <Input
                 id="country"
                 type="text"
@@ -102,10 +102,10 @@ const ShippingPage: React.FC = () => {
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
                 required
-                className='my-3'
+                className='my-3 font-inter'
               />
             </div>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full font-inter">
               Continuer
             </Button>
           </form>

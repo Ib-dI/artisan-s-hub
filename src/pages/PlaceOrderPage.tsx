@@ -97,54 +97,54 @@ const PlaceOrderPage: React.FC = () => {
 
   if (!shippingAddress || !paymentMethod || cartItems.length === 0 || !user) {
     return (
-        <div className="container mx-auto p-4 flex justify-center items-center min-h-[calc(100vh-64px)]">
+        <div className="container mx-auto p-4 flex justify-center items-center min-h-[calc(100vh-64px)] font-inter">
             <Card className="max-w-md w-full text-center p-8">
-                <CardTitle className="text-xl">Chargement des informations de commande...</CardTitle>
-                <CardDescription className="mt-2">Redirection si des informations sont manquantes.</CardDescription>
+                <CardTitle className="text-xl font-geist text-primary">Chargement des informations de commande...</CardTitle>
+                <CardDescription className="mt-2 font-inter">Redirection si des informations sont manquantes.</CardDescription>
             </Card>
         </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-6 font-inter">
       <Toaster />
       {/* Colonne des détails de la commande */}
       <div className="lg:col-span-2 space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Adresse de Livraison</CardTitle>
+            <CardTitle className="font-geist text-primary">Adresse de Livraison</CardTitle>
           </CardHeader>
           <CardContent>
-            <p><strong>Adresse:</strong> {shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode}, {shippingAddress.country}</p>
+            <p><strong className="font-geist">Adresse:</strong> {shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode}, {shippingAddress.country}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Méthode de Paiement</CardTitle>
+            <CardTitle className="font-geist text-primary">Méthode de Paiement</CardTitle>
           </CardHeader>
           <CardContent>
-            <p><strong>Méthode:</strong> {paymentMethod}</p>
+            <p><strong className="font-geist">Méthode:</strong> {paymentMethod}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Articles Commandés</CardTitle>
+            <CardTitle className="font-geist text-primary">Articles Commandés</CardTitle>
           </CardHeader>
           <CardContent>
             {cartItems.length === 0 ? (
-              <p>Votre panier est vide.</p>
+              <p className="font-inter">Votre panier est vide.</p>
             ) : (
               <div className="space-y-4">
                 {cartItems.map((item) => (
                   <div key={item._id} className="flex items-center justify-between border-b pb-2 last:border-b-0">
                     <div className="flex items-center">
                       <img src={item.imageUrl || 'https://via.placeholder.com/50'} alt={item.name} className="w-12 h-12 object-cover rounded-md mr-4" />
-                      <p>{item.name}</p>
+                      <p className="font-inter">{item.name}</p>
                     </div>
-                    <p>{item.quantity} x {item.price.toFixed(2)}€ = {(item.quantity * item.price).toFixed(2)}€</p>
+                    <p className="font-geist">{item.quantity} x {item.price.toFixed(2)}€ = {(item.quantity * item.price).toFixed(2)}€</p>
                   </div>
                 ))}
               </div>
@@ -156,30 +156,30 @@ const PlaceOrderPage: React.FC = () => {
       {/* Colonne du résumé de la commande */}
       <Card className="lg:col-span-1 h-fit">
         <CardHeader>
-          <CardTitle>Résumé de la Commande</CardTitle>
+          <CardTitle className="font-geist text-primary">Résumé de la Commande</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span>Articles:</span>
-              <span>{itemsPrice.toFixed(2)}€</span>
+              <span className="font-inter">Articles:</span>
+              <span className="font-geist">{itemsPrice.toFixed(2)}€</span>
             </div>
             <div className="flex justify-between">
-              <span>Livraison:</span>
-              <span>{shippingPrice.toFixed(2)}€</span>
+              <span className="font-inter">Livraison:</span>
+              <span className="font-geist">{shippingPrice.toFixed(2)}€</span>
             </div>
             <div className="flex justify-between">
-              <span>Taxes:</span>
-              <span>{taxPrice.toFixed(2)}€</span>
+              <span className="font-inter">Taxes:</span>
+              <span className="font-geist">{taxPrice.toFixed(2)}€</span>
             </div>
             <Separator className="my-4" />
             <div className="flex justify-between text-xl font-bold">
-              <span>Total:</span>
-              <span>{totalPrice.toFixed(2)}€</span>
+              <span className="font-geist">Total:</span>
+              <span className="font-geist">{totalPrice.toFixed(2)}€</span>
             </div>
           </div>
           <Button
-            className="w-full mt-6"
+            className="w-full mt-6 font-inter"
             onClick={placeOrderHandler}
             disabled={loading || cartItems.length === 0}
           >

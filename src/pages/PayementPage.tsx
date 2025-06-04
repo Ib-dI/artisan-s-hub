@@ -37,10 +37,10 @@ const PaymentPage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 flex justify-center items-center min-h-[calc(100vh-64px)]">
+    <div className="container mx-auto p-4 flex justify-center items-center min-h-[calc(100vh-64px)] font-inter">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Méthode de Paiement</CardTitle>
+          <CardTitle className="text-2xl text-center font-geist text-primary">Méthode de Paiement</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={submitHandler} className="space-y-6">
@@ -51,15 +51,15 @@ const PaymentPage: React.FC = () => {
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="PayPal" id="paypal" />
-                <Label htmlFor="paypal">PayPal ou Carte de Crédit</Label>
+                <Label htmlFor="paypal" className="font-inter">PayPal ou Carte de Crédit</Label>
               </div>
               {/* Vous pouvez ajouter d'autres options ici plus tard */}
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Stripe" id="stripe" />
-                <Label htmlFor="stripe">Stripe</Label>
+                <Label htmlFor="stripe" className="font-inter">Stripe</Label>
               </div>
             </RadioGroup>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full font-inter">
               Continuer
             </Button>
           </form>

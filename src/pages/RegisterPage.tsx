@@ -72,7 +72,7 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[calc(100vh-64px)] bg-background p-4">
+    <div className="flex justify-center items-center min-h-[calc(100vh-64px)] bg-background p-4 font-inter">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-geist text-primary">Inscription</CardTitle>
@@ -92,7 +92,7 @@ const RegisterPage: React.FC = () => {
                     <FormControl>
                       <Input className="font-inter" placeholder="Votre nom d'utilisateur" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="font-inter" />
                   </FormItem>
                 )}
               />
@@ -105,7 +105,7 @@ const RegisterPage: React.FC = () => {
                     <FormControl>
                       <Input className="font-inter" placeholder="votre.email@exemple.com" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="font-inter" />
                   </FormItem>
                 )}
               />
@@ -118,7 +118,7 @@ const RegisterPage: React.FC = () => {
                     <FormControl>
                       <Input className="font-inter" type="password" placeholder="********" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="font-inter" />
                   </FormItem>
                 )}
               />
@@ -152,7 +152,7 @@ const RegisterPage: React.FC = () => {
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="font-inter" />
                   </FormItem>
                 )}
               />
@@ -168,7 +168,7 @@ const RegisterPage: React.FC = () => {
                         <FormControl>
                           <Input className="font-inter" placeholder="Mon Atelier Créatif" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="font-inter" />
                       </FormItem>
                     )}
                   />
@@ -181,7 +181,7 @@ const RegisterPage: React.FC = () => {
                         <FormControl>
                           <Input className="font-inter" placeholder="Décrivez votre travail..." {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="font-inter" />
                       </FormItem>
                     )}
                   />
@@ -189,7 +189,7 @@ const RegisterPage: React.FC = () => {
               )}
 
               {error && <p className="text-red-500 text-sm font-inter">{error}</p>}
-              <Button type="submit" className="w-full font-geist" disabled={isLoading}>
+              <Button type="submit" className="w-full font-inter" disabled={isLoading}>
                 {isLoading ? "Inscription en cours..." : "S'inscrire"}
               </Button>
             </form>
